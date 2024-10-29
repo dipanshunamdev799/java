@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- bean definitions here -->
+    <!-- beans are the objects managed by spring framework  -->
+    <!-- lazy-init : create object only when called!!!!!!!!!!!!!! -->
+    <bean id="alien" class="com.dipanshu.Alien" lazy-init="true">
+        <!-- DEPENDENCY INJECTION -->
+        <!-- Setter Injection -->
+        <property name="age" value="21"></property>
+        <!-- Sets the property using setter, since it is a java bean -->
+        <!-- Reference injection -->
+        <property name="lappy" ref="lap"></property>
+        <!-- Assign lap id object/bean to the alien id bean -->
+    </bean>
+    <bean id="alien2" class="com.dipanshu.Alien">
+        <!-- CONSTRUCTOR INJECTION -->
+
+        <!-- By type -->
+        <!-- <constructor-arg type="com.dipanshu.Laptop" ref="lap" />
+<constructor-arg type="int" value="32"/> -->
+
+        <!-- By default sequence matters -->
+
+        <!-- By index -->
+        <!-- <constructor-arg ref="lap" index="1"/>
+<constructor-arg value="43" index="0"/> -->
+
+        <!-- By variable name -->
+        <constructor-arg name="lappy" ref="lap"/>
+        <constructor-arg name="age" value="54"/>
+
+    </bean>
+    <!-- Spring uses Singleton : (Default) Scopes a single bean definition to a single object instance for each Spring IoC container. -->
+    <bean id="lap" class="com.dipanshu.Laptop" scope="prototype"></bean>
+
+    <!-- AUTOWIRIRNG -->
+    <bean id="alien1" class="com.dipanshu.Alien" autowire="byName">
+        <!-- byType could also be used, gives error if more than one bean is there, if primary bean is not there-->
+
+        <!-- Auto wiring has less priority than the explicit definition -->
+        <property name="age" value="34"/>
+        <!-- now the next argument we want here is a lappy -->
+    </bean>
+    <!-- Here is the lappy -->
+    <!-- primary = true?, if spring is confused in autowiring the primary bean will be selected -->
+    <bean id="lappy" class="com.dipanshu.Laptop" primary="true"></bean>
+    <bean id="alien3" class="com.dipanshu.Alien">
+        <property name="age" value="32"/>
+        <property name="lappy">
+            <!-- INNER BEAN -->
+            <!-- alien3 exclusive bean -->
+            <bean class="com.dipanshu.Laptop"> </bean>
+        </property>
+    </bean>
+</beans>
